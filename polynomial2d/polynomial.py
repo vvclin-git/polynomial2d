@@ -153,8 +153,9 @@ def polyfit2d(x, y, z, deg=1, rcond=None, full_output=False):
                     continue
                 inds.append((i, j))
     c2 = np.zeros((deg + 1, deg + 1))
-    c2[zip(*inds)] = c1
-
+    # c2[zip(*inds)] = c1 (not working on Python 3!)    
+    for i, ind in enumerate(inds):  # working python 3 fix
+        c2[ind[0], ind[1]] = c1[i]
     if full_output:
         return c2, [resids, rank, s, rcond]
     else:
